@@ -32,7 +32,14 @@
  ### *Slam-tools和Gazebo的数据发布的时间一定要同步，在 Gazebo 仿真中，如果 SLAM 节点认为现在是 2026 年，而 Gazebo 发布的数据时间戳是从 0 秒开始的（仿真时间），节点会认为这些数据全部过期而丢弃导致加载不出地图
       将step3的第二行命令换成：ros2 launch slam_toolbox online_sync_launch.py use_sim_time:=true
  
-    
+### 打开slam-tools的时候出现跑不出二维栅格图的问题
+#### Q1：话题冲突。
+         最后我们看到的二维栅格地图其实是一个/map话题，这个话题的发布者应该是slam-toolbox即slam结点发布，如果此此时LaserScan也在发布话题，就会导致冲突。雷达（LaserScan）应该发布的是距离数据（通常话题名为 /scan），而 SLAM 应该发布的是地图数据（话题名为 /map）。如果雷达占用了 /map 这个名字，消息（LaserScan）和地图格式（OccupancyGrid）就会打架，导致 Rviz2 彻底死掉。<br>
+        A1:输入ros2 topic info /map --verbose，看看是哪个结点把数据发到了/map上，正常应该是只有slam-toolbox，但是现在可能存在雷达数据LaserScan。
+        A2:输入ros2 topic info --verbose，rviz2 在这里是一个 SUBSCRIPTION（订阅者）。这意味着 Rviz2 正在尝试从 /map 话题中读取数据。但关键点在于：Rviz2 认为这个话题的类型是 sensor_msgs/msg/LaserScan。为什么这是个严重的问题？正常的地图话题类型应该是 nav_msgs/msg/OccupancyGrid。 现在 Rviz2 却在 /map 话题上寻找“激光雷达扫描数据”，这说明在你的 ROS 2 图形网络中，已经有一个节点成功地把 /map 话题定义为了雷达类型。你需要往上看输出内容，找到 Publishers 部分。 真正的“凶手”是那个出现在 Publishers 列表下的节点，不能要这个雷达结点。
+#### Solution: 清除所有结点和仿真ros2 daemon stop，重新先跑图，再跑slam-tools。设置Rvriz2中Fixed Frame=map,Topic=scan,Add Map绘图。！！！！然后，要是还跑不出来，Reset Gazebo的时间！
+
+
     
 
     
