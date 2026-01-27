@@ -8,4 +8,6 @@
 <collision>：使用简单的 box, cylinder, sphere（为了稳定）
 4. *可能是shadow的问题导致机器人灰色与环境融为一体了*。
  <img width="1641" height="925" alt="image" src="https://github.com/user-attachments/assets/624e2cf4-79f1-451c-9db0-969b65dd9012" />
-然后世界就明亮了机器人也出来了！！！🤖🔥
+然后世界就明亮了机器人也出来了！！！🤖🔥，看一下最后的跑图机器人在房间里面的自动导航成品
+<img width="1456" height="784" alt="image" src="https://github.com/user-attachments/assets/096dae75-6eff-410f-ae3d-d49c2a257001" />
+
