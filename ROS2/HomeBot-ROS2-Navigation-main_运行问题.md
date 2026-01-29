@@ -11,3 +11,26 @@
 然后世界就明亮了机器人也出来了！！！🤖🔥，看一下最后的跑图机器人在房间里面的自动导航成品
 <img width="1456" height="784" alt="image" src="https://github.com/user-attachments/assets/096dae75-6eff-410f-ae3d-d49c2a257001" />
 
+# 终极运行步骤🎆
+`step1: colcon build --symlink-install`
+
+`step2: source install/setup.bash`
+
+`step3: cd ./src`
+
+`step4: cp -r robot_description/meshes ~/.gazebo/models/robot_description/`
+
+`step5: cd ~/.gazebo/models/robot_description`
+
+`step6: rm -rf !(meshes)`
+
+`step7: ros2 launch robot_simulation house_sim.launch.py` 出现地图和小车
+
+`step8: ros2 launch robot_simulation autonomous_navigation.launch.py`小车导航系统就绪
+
+'step9: ros2 run robot_patrol robot_patrol`小车开始寻址跑图
+
+
+
+
+
